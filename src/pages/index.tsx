@@ -5,14 +5,14 @@ import Image from 'next/image'
 import Profile from '../components/profile'
 import styles from '../styles/Home.module.css'
 
-import { log } from 'logger'
-import { CounterButton, NewTabLink } from 'ui'
+/* import { log } from 'logger' */
+/* import { CounterButton, NewTabLink } from 'ui' */
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useQuery } from '../lib/wundergraph'
 
 /* function Home() { */
 const Home: NextPage = () => {
-  log('Hey! This is Home.')
+  /* log('Hey! This is Home.') */
   const { data: session } = useSession()
   const autos = useQuery({ operationName: 'AllAutos' })
   /* const stores = useQuery({ operationName: 'AllStores' }) */
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
 
         <Profile />
 
-        <CounterButton />
+        {/* <CounterButton /> */}
 
         <div className='mx-auto flex max-w-sm flex-col items-center'>
           <p className='mt-3 mb-8 text-center text-black/80'>
@@ -78,8 +78,8 @@ const Home: NextPage = () => {
 
         <p className='description'>
           Built With{' '}
-          <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '}
-          <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink>
+          {/* <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '} */}
+          {/* <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink> */}
         </p>
       </main>
 

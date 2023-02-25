@@ -1,4 +1,9 @@
 module.exports = {
   root: true,
-  extends: ['custom'],
+  extends: ['next', 'prettier'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 }

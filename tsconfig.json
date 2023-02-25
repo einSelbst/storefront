@@ -12,8 +12,8 @@
         "noUnusedParameters": false,
         "preserveWatchOutput": true,
         "skipLibCheck": true,
-        "strict": true
-    "allowJs": true,
+        "strict": true,
+        "allowJs": true,
         "declaration": false,
         "declarationMap": false,
         "incremental": true,
