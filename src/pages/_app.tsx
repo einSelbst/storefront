@@ -1,18 +1,24 @@
+/* import React from 'react' */
 import type { AppProps } from 'next/app'
 import '../styles.css'
 import { SessionProvider } from 'next-auth/react'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  /* Hydrate, */
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
+/* const [queryClient] = React.useState(() => new QueryClient()) */
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider session={pageProps.session}>
+    <SessionProvider session={pageProps.session}>
+      <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-      </SessionProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   )
 }
 

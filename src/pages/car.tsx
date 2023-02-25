@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+/* import { NextPage } from 'next' */
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,19 +6,63 @@ import Link from 'next/link'
 import Profile from '../components/profile'
 import styles from '../styles/Home.module.css'
 
-/* import { log } from 'logger' */
-/* import { CounterButton, NewTabLink } from 'ui' */
+import { log } from 'logger'
+import { CounterButton, NewTabLink } from 'ui'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { useQuery } from '../lib/wundergraph'
+import { client, useQuery } from '../lib/wundergraph'
 
+/* import { dehydrate, QueryClient } from '@tanstack/react-query' */
+
+export async function getStaticProps() {
+  const res = await client.query({
+    operationName: 'AllAutos',
+  })
+  const cars = res!.data!.faunaDB_allAutos.data
+
+  return {
+    props: {
+      cars,
+    },
+  }
+}
+/*
+* export async function getStaticProps2() {
+*   const queryClient = new QueryClient()
+*
+*   // const res = await client.query({
+*   // operationName: 'AllAutos',
+*   // })
+* await queryClient.prefetchQuery({
+  *     queryKey: ['posts', 10],
+  *     queryFn: client.query({
+    *       operationName: 'AllAutos',
+    *     }),
+*   })
+  *
+*   // const posts = await res.json()
+*   // const cars = await queryClient.json()
+*   // const cars = res!.data!.faunaDB_allAutos.data
+*
+*   // By returning { props: { posts } }, the Blog component
+*   // will receive `posts` as a prop at build time
+*   return {
+  *     props: {
+*       // cars: cars,
+*       cars: dehydrate(queryClient),
+*     },
+*   }
+* }
+*  * /
 /* function Home() { */
-const Home: NextPage = () => {
-  /* log('Hey! This is Home.') */
+const Car = ({ cars }: any) => {
+  log('Hey! This is Car.')
   const { data: session } = useSession()
-  /* const autos = useQuery({ operationName: 'AllAutos' }) */
+  const autos = useQuery({ operationName: 'AllAutos' })
   /* const stores = useQuery({ operationName: 'AllStores' }) */
   /* const dragons = useQuery({ operationName: 'Dragons' }) */
   /* const refresh = () => { stores.mutate() } */
+  console.log(cars)
+  /* const { data, isLoading, error } = useQuery({ operationName: 'Countries', input: { code: 'US',    },  }); */
 
   return (
     <div className={styles.container}>
@@ -36,23 +80,20 @@ const Home: NextPage = () => {
           </a>
         </h1>
 
-        {/* <div>{JSON.stringify(dragons.data)}</div> */}
+        {/* <div>{JSON.stringify(cars)}</div> */}
+        <h2>Here</h2>
         <ul>
-          <li>
-            <Link href='/'>Home</Link>
-          </li>
-          <li>
-            <Link href='/car'>Car</Link>
-          </li>
-          <li>
-            <Link
-              href={{
-                pathname: '/[brand]',
-                query: { brand: 'ford' },
-              }}>
-              Blog Post
-            </Link>
-          </li>
+          {cars.map((car: any) => (
+            <li key="{car.id}">
+              <Link
+                href={{
+                  pathname: '/[brand]',
+                  query: { brand: car.Make, carId: car.id},
+                }}>
+                {car.Make}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <p className={styles.description}>
@@ -81,7 +122,7 @@ const Home: NextPage = () => {
 
         <Profile />
 
-        {/* <CounterButton /> */}
+        <CounterButton />
 
         <div className='mx-auto flex max-w-sm flex-col items-center'>
           <p className='mt-3 mb-8 text-center text-black/80'>
@@ -91,18 +132,13 @@ const Home: NextPage = () => {
             </code>{' '}
             operation.
           </p>
-          <code className='p-3'>
-            {/* {JSON.stringify(autos.data.faunaDB_allAutos.data[0], null, 2)} */}
-          </code>
-          <code className='p-3'>
-            {/* {autos.data.faunaDB_allAutos.data[0].Make} */}
-          </code>
+          <code className='p-3'>{JSON.stringify(autos, null, 2)}</code>
         </div>
 
         <p className='description'>
           Built With{' '}
-          {/* <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '} */}
-          {/* <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink> */}
+          <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '}
+          <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink>
         </p>
       </main>
 
@@ -123,4 +159,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Car

@@ -9,6 +9,18 @@ export interface GraphQLError {
 	path?: ReadonlyArray<string | number>;
 }
 
+export interface GetCarInput {
+	carId: string;
+}
+
+export interface InternalGetCarInput {
+	carId: string;
+}
+
+export interface InjectedGetCarInput {
+	carId: string;
+}
+
 export interface AllAutosResponse {
 	data?: AllAutosResponseData;
 	errors?: ReadonlyArray<GraphQLError>;
@@ -19,9 +31,15 @@ export interface DragonsResponse {
 	errors?: ReadonlyArray<GraphQLError>;
 }
 
+export interface GetCarResponse {
+	data?: GetCarResponseData;
+	errors?: ReadonlyArray<GraphQLError>;
+}
+
 export interface AllAutosResponseData {
 	faunaDB_allAutos: {
 		data: {
+			id: string;
 			Make?: string;
 			CommercialName?: string;
 			MemberState?: string;
@@ -35,4 +53,15 @@ export interface DragonsResponseData {
 		active?: boolean;
 		id?: string;
 	}[];
+}
+
+export interface GetCarResponseData {
+	faunaDB_Auto?: {
+		Make?: string;
+		CommercialName?: string;
+		MemberState?: string;
+		Manufacturer?: string;
+		id: string;
+		_id: string;
+	};
 }

@@ -1,0 +1,10 @@
+query GetCar($carId: ID!) {
+  faunaDB_Auto(id: $carId) {
+    Make
+    CommercialName
+    MemberState
+    Manufacturer
+    id
+    _id
+  }
+}

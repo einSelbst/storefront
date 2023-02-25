@@ -1,6 +1,7 @@
 query AllAutos {
   faunaDB_allAutos {
     data {
+      id
       Make
       CommercialName
       MemberState

@@ -12,7 +12,15 @@ import {
 	SubscriptionEventHandler,
 	FetchUserRequestOptions,
 } from "@wundergraph/sdk/client";
-import type { AllAutosResponse, AllAutosResponseData, DragonsResponse, DragonsResponseData } from "./models";
+import type {
+	AllAutosResponse,
+	AllAutosResponseData,
+	DragonsResponse,
+	DragonsResponseData,
+	GetCarResponse,
+	GetCarInput,
+	GetCarResponseData,
+} from "./models";
 
 export type UserRole = "admin" | "user";
 
@@ -29,7 +37,7 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "f129f19c",
+	applicationHash: "9fa3391d",
 	baseURL: "http://localhost:9991",
 	sdkVersion: "0.132.1",
 };
@@ -39,6 +47,9 @@ export const operationMetadata: OperationMetadata = {
 		requiresAuthentication: false,
 	},
 	Dragons: {
+		requiresAuthentication: false,
+	},
+	GetCar: {
 		requiresAuthentication: false,
 	},
 };
@@ -100,6 +111,12 @@ export type Queries = {
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
+	GetCar: {
+		input: GetCarInput;
+		data: GetCarResponseData;
+		requiresAuthentication: false;
+		liveQuery: boolean;
+	};
 };
 
 export type Mutations = {};
@@ -116,6 +133,12 @@ export type LiveQueries = {
 	Dragons: {
 		input?: undefined;
 		data: DragonsResponseData;
+		liveQuery: true;
+		requiresAuthentication: false;
+	};
+	GetCar: {
+		input: GetCarInput;
+		data: GetCarResponseData;
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
