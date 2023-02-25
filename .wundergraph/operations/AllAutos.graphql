@@ -1,0 +1,9 @@
+query AllAutos {
+  faunaDB_allAutos {
+    data {
+      Make
+      CommercialName
+      MemberState
+    }
+  }
+}

@@ -1,0 +1,226 @@
+#"Identification.Classification"
+#"Identification.ID"
+#"Identification.Make"
+#"Identification.Model Year"
+#"Identification.Year"
+
+#Version (zeitliche Abfolge), Variante, Variations,
+
+type MemberState {
+  name: String!
+}
+
+type Mh {
+  name: String!
+}
+
+type Manufacturer {
+  name: String!
+}
+
+type MMS {
+  name: String!
+}
+
+type TAN {
+  name: String!
+}
+
+type Type {
+  name: String!
+}
+
+type Variant {
+  name: String!
+}
+
+type Version {
+  name: String!
+}
+
+type Make {
+  name: String!
+}
+
+type CommercialName {
+  name: String!
+}
+
+type Category {
+  name: String!
+}
+
+type Registrations {
+  name: String!
+}
+
+type Fueltype {
+  name: String!
+}
+
+type Fuelmode {
+  name: String!
+}
+
+type ManufacturerPooling {
+  name: String!
+}
+
+type InovativTech {
+  name: String!
+}
+
+type Transmission @embedded {
+  name: String!
+}
+
+type Engine @embedded {
+  name: String!
+  alias: [String]
+  family: EngineFamily
+  type: EngineType # "Engine Information.Engine Type"
+  #"Engine Information.Driveline"
+  #"Engine Information.Hybrid"
+  #"Engine Information.Number of Forward Gears"
+  #"Engine Information.Transmission"
+  Power: EnginePower
+  Torqe: EngineTorque
+  #"Fuel Information.City mpg"
+  #"Fuel Information.Fuel Type"
+  #"Fuel Information.Highway mpg"
+  ProductionStart: Date
+  ProductionEnd: Date
+}
+
+type EngineType {
+  name: String!
+}
+
+type EngineFamily {
+  name: String!
+  Manufacturer: Manufacturer!
+}
+
+#"Engine Information.Engine Statistics.Horsepower"
+type EnginePower {
+  rpm: Int
+  kw: Int!
+  ps: Int!
+}
+
+#"Engine Information.Engine Statistics.Torque"
+#"290 lb⋅ft (393 N⋅m) @ 5000 rpm"
+type EngineTorque {
+  rpm: Int
+  nm: Int
+  lbft: Int
+}
+
+type Model {
+  Engines: [Engine]
+  Transmissions: [Transmission]
+}
+
+type Dimension {
+  height: Int
+  length: Int
+  width: Int
+}
+
+type Auto {
+  id: ID!
+  MemberState: String # MemberState #AT
+  # Mh: Mh # AA-IVA
+  Manufacturer: String #AA-IVA
+  # MMS: MMS # ANDERE
+  # TAN: TAN #14293/2012
+  # Type: Type #
+  Make: String #SYLVA
+  CommercialName: String #  SYLVA RIOT
+  # Category: Category #M1
+  # registrations: 1
+  # emissions (g/km): Int
+  # mass (kg): Int
+  # wheelbase (mm): Int
+  # axlewidthSteering (mm): Int
+  # axlewidthOther (mm): Int
+  # Fueltype: Petrol
+  # Fuelmode: Fuelmode
+  # enginecapacity (cm3): Int
+  # enginepower (KW): Int
+  # electricconsumption (Wh/km): Int
+  # InovativTech: InovativTech
+  # Er (g/km): Int
+}
+
+type Award {
+  name: String!
+  start: Date
+  end: Date
+  # predecessor: Award
+  # successor: Award
+}
+
+type Tweet {
+  id: ID!
+  # The tweet text. No more than 140 characters!
+  body: String
+  # When the tweet was published
+  date: Date
+  # Who published the tweet
+  Author: User
+  # Views, retweets, likes, etc
+  Stats: Stat
+}
+
+type User {
+  id: ID!
+  username: String
+  first_name: String
+  last_name: String
+  full_name: String
+  name: String @deprecated
+}
+
+type Stat {
+  views: Int
+  likes: Int
+  retweets: Int
+  responses: Int
+}
+
+type Notification {
+  id: ID
+  date: Date
+  type: String
+}
+
+type Meta {
+  count: Int
+}
+
+type Query {
+  allTodos: [Todo!]
+  allAutos: [Auto!]
+  all_autos: [Auto!]
+  Tweet(id: ID!): Tweet
+  TweetsMeta: Meta
+  User(id: ID!): User
+  NotificationsMeta: Meta
+  Auto(id: ID!): Auto
+}
+
+type Todo {
+  title: String!
+  reminders: [Reminder]!
+  completed: Boolean
+}
+
+type Reminder @embedded {
+  timestamp: String!
+}
+
+# type Query {
+# allTodos: [Todo!]
+# todosByCompletedFlag(completed: Boolean!): [Todo!]
+# }
