@@ -3,7 +3,8 @@ import { createClient, Operations } from '../components/generated/client'
 import { createHooks } from '@wundergraph/react-query'
 
 export const client = createClient({
-  baseURL: 'https://cloud-starter.wundergraph.dev',
+  // baseURL: 'https://cloud-starter.wundergraph.dev',
+  baseURL: process.env.WG_PUBLIC_NODE_URL,
 })
 
 export const {
