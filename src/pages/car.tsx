@@ -6,8 +6,8 @@ import Link from 'next/link'
 import Profile from '../components/profile'
 import styles from '../styles/Home.module.css'
 
-import { log } from 'logger'
-import { CounterButton, NewTabLink } from 'ui'
+/* import { log } from 'logger' */
+/* import { CounterButton, NewTabLink } from 'ui' */
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { client, useQuery } from '../lib/wundergraph'
 
@@ -55,7 +55,7 @@ export async function getStaticProps() {
 *  * /
 /* function Home() { */
 const Car = ({ cars }: any) => {
-  log('Hey! This is Car.')
+  /* log('Hey! This is Car.') */
   const { data: session } = useSession()
   const autos = useQuery({ operationName: 'AllAutos' })
   /* const stores = useQuery({ operationName: 'AllStores' }) */
@@ -122,7 +122,7 @@ const Car = ({ cars }: any) => {
 
         <Profile />
 
-        <CounterButton />
+        {/* <CounterButton /> */}
 
         <div className='mx-auto flex max-w-sm flex-col items-center'>
           <p className='mt-3 mb-8 text-center text-black/80'>
@@ -137,8 +137,8 @@ const Car = ({ cars }: any) => {
 
         <p className='description'>
           Built With{' '}
-          <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '}
-          <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink>
+          {/* <NewTabLink href='https://turbo.build/repo'>Turborepo</NewTabLink> +{' '} */}
+          {/* <NewTabLink href='https://nextjs.org/'>Next.js</NewTabLink> */}
         </p>
       </main>
 
