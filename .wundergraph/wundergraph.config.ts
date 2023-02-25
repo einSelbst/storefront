@@ -15,7 +15,8 @@ const faunaDB = introspect.graphql({
   headers: builder => {
     builder.addStaticHeader(
       'Authorization',
-      new EnvironmentVariable('FAUNADB_TOKEN')
+      'Bearer fnAE4ciN2hAA1gvPF_kV8bzIoYDiTmff3RPejDh8'
+      // new EnvironmentVariable('FAUNADB_TOKEN')
     )
     return builder
   },
