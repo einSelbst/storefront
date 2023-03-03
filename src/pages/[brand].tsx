@@ -1,3 +1,10 @@
+import type {
+  GetStaticProps,
+  GetStaticPropsContext,
+  GetStaticPropsResult,
+  InferGetStaticPropsType,
+} from 'next'
+
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -18,11 +25,14 @@ import { client } from '../lib/wundergraph'
 
 export const getStaticPaths = async () => {
   /* const paths = getAllBrands() */
-  const cars = await client.query({ operationName: 'AllAutos' })
+  /* const cars = await client.query({ operationName: 'AllAutos' }) */
+  const cars = await client.query({ operationName: 'AllBrands' })
   /* brand: allAutos.data.faunaDB_allAutos.data */
 
-  const paths = cars!.data!.faunaDB_allAutos.data.map((car: any) => ({
-    params: { brand: car.Make },
+  /* const paths = cars!.data!.faunaDB_allAutos.data.map((car: any) => ({ */
+  const paths = cars!.data!.faunaDB_allBrands.data.map((car: any) => ({
+    /* params: { brand: car.Make }, */
+    params: { brand: car.name },
   }))
 
   console.log('777777777777777777777777777777777')
@@ -73,7 +83,16 @@ export const getStaticPaths = async () => {
  *   }
  * }
  *  */
-export async function getStaticProps() {
+
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
+  /* ): Promise<GetStaticPropsResult<HomeProps>> => { */
+  /* export async function getStaticProps(context: NextPageContext) { */
+    console.log('props')
+  console.log(context)
+  console.log(context!.params!.brand)
+
   const res = await client.query({
     operationName: 'GetCar',
     input: { carId: '1' }

@@ -15,9 +15,11 @@ import { client, useQuery } from '../lib/wundergraph'
 
 export async function getStaticProps() {
   const res = await client.query({
-    operationName: 'AllAutos',
+    /* operationName: 'AllAutos', */
+    operationName: 'AllBrands',
   })
-  const cars = res!.data!.faunaDB_allAutos.data
+  /* const cars = res!.data!.faunaDB_allAutos.data */
+  const cars = res!.data!.faunaDB_allBrands.data
 
   return {
     props: {
@@ -57,7 +59,8 @@ export async function getStaticProps() {
 const Car = ({ cars }: any) => {
   /* log('Hey! This is Car.') */
   const { data: session } = useSession()
-  const autos = useQuery({ operationName: 'AllAutos' })
+  /* const autos = useQuery({ operationName: 'AllAutos' }) */
+  const autos = useQuery({ operationName: 'AllBrands' })
   /* const stores = useQuery({ operationName: 'AllStores' }) */
   /* const dragons = useQuery({ operationName: 'Dragons' }) */
   /* const refresh = () => { stores.mutate() } */
@@ -84,13 +87,14 @@ const Car = ({ cars }: any) => {
         <h2>Here</h2>
         <ul>
           {cars.map((car: any) => (
-            <li key="{car.id}">
+            <li key="{car._id}">
               <Link
                 href={{
                   pathname: '/[brand]',
-                  query: { brand: car.Make, carId: car.id},
+                  {/* query: { brand: car.Make, carId: car.id}, */}
+                  query: { brand: car.display, carId: car._id},
                 }}>
-                {car.Make}
+                {car.name}
               </Link>
             </li>
           ))}
