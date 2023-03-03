@@ -15,6 +15,8 @@ import {
 import type {
 	AllAutosResponse,
 	AllAutosResponseData,
+	AllBrandsResponse,
+	AllBrandsResponseData,
 	DragonsResponse,
 	DragonsResponseData,
 	GetCarResponse,
@@ -37,13 +39,16 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "769c45fa",
+	applicationHash: "fb3b54ef",
 	baseURL: "http://localhost:9991",
 	sdkVersion: "0.132.1",
 };
 
 export const operationMetadata: OperationMetadata = {
 	AllAutos: {
+		requiresAuthentication: false,
+	},
+	AllBrands: {
 		requiresAuthentication: false,
 	},
 	Dragons: {
@@ -105,6 +110,12 @@ export type Queries = {
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
+	AllBrands: {
+		input?: undefined;
+		data: AllBrandsResponseData;
+		requiresAuthentication: false;
+		liveQuery: boolean;
+	};
 	Dragons: {
 		input?: undefined;
 		data: DragonsResponseData;
@@ -127,6 +138,12 @@ export type LiveQueries = {
 	AllAutos: {
 		input?: undefined;
 		data: AllAutosResponseData;
+		liveQuery: true;
+		requiresAuthentication: false;
+	};
+	AllBrands: {
+		input?: undefined;
+		data: AllBrandsResponseData;
 		liveQuery: true;
 		requiresAuthentication: false;
 	};

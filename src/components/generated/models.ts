@@ -26,6 +26,11 @@ export interface AllAutosResponse {
 	errors?: ReadonlyArray<GraphQLError>;
 }
 
+export interface AllBrandsResponse {
+	data?: AllBrandsResponseData;
+	errors?: ReadonlyArray<GraphQLError>;
+}
+
 export interface DragonsResponse {
 	data?: DragonsResponseData;
 	errors?: ReadonlyArray<GraphQLError>;
@@ -43,6 +48,16 @@ export interface AllAutosResponseData {
 			Make?: string;
 			CommercialName?: string;
 			MemberState?: string;
+		}[];
+	};
+}
+
+export interface AllBrandsResponseData {
+	faunaDB_allBrands: {
+		data: {
+			_id: string;
+			name: string;
+			display: string;
 		}[];
 	};
 }
