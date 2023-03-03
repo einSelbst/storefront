@@ -6,6 +6,11 @@
 
 #Version (zeitliche Abfolge), Variante, Variations,
 
+type Brand {
+  name: String!
+  display: String!
+}
+
 type MemberState {
   name: String!
 }
@@ -203,11 +208,14 @@ type Query {
   allTodos: [Todo!]
   allAutos: [Auto!]
   all_autos: [Auto!]
+  allBrands: [Brand!]
   Tweet(id: ID!): Tweet
   TweetsMeta: Meta
   User(id: ID!): User
   NotificationsMeta: Meta
   Auto(id: ID!): Auto
+  findMakeByName(Make: String): Auto
+  findBrandByName(name: String): Brand
 }
 
 type Todo {

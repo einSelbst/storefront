@@ -1,0 +1,8 @@
+query AllBrands {
+  faunaDB_allBrands {
+    data {
+      name
+      display
+    }
+  }
+}
