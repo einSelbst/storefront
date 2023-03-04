@@ -11,13 +11,13 @@ import operations from './wundergraph.operations'
 
 const faunaDB = introspect.graphql({
   apiNamespace: 'faunaDB',
-  url: "https://graphql.eu.fauna.com/graphql",
-  // new EnvironmentVariable('FAUNADB_GRAPHQL_URL'),
+  // url: "https://graphql.eu.fauna.com/graphql",
+  new EnvironmentVariable('FAUNADB_GRAPHQL_URL'),
   headers: builder => {
     builder.addStaticHeader(
       'Authorization',
-      'Bearer fnAE4ciN2hAA1gvPF_kV8bzIoYDiTmff3RPejDh8'
-      // new EnvironmentVariable('FAUNADB_TOKEN')
+      // 'Bearer fnAE4ciN2hAA1gvPF_kV8bzIoYDiTmff3RPejDh8'
+      new EnvironmentVariable('FAUNADB_TOKEN')
     )
     return builder
   },

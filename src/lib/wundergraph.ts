@@ -3,8 +3,8 @@ import { createClient, Operations } from '../components/generated/client'
 import { createHooks } from '@wundergraph/react-query'
 
 export const client = createClient({
-  baseURL: 'https://storefront.wundergraph.dev',
-  // baseURL: process.env.WG_PUBLIC_NODE_URL,
+  // baseURL: 'https://storefront.wundergraph.dev',
+  baseURL: process.env.WG_PUBLIC_NODE_URL,
 })
 
 export const {

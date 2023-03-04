@@ -91,9 +91,9 @@ const Car = ({ cars }: any) => {
               <Link
                 href={{
                   pathname: '/[brand]',
-                  query: { brand: car.display, carId: car._id},
+                  query: { brand: car.name, carId: car._id},
                 }}>
-                {car.name}
+                {car.display}
               </Link>
             </li>
           ))}
