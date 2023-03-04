@@ -12,7 +12,7 @@ import operations from './wundergraph.operations'
 const faunaDB = introspect.graphql({
   apiNamespace: 'faunaDB',
   // url: "https://graphql.eu.fauna.com/graphql",
-  new EnvironmentVariable('FAUNADB_GRAPHQL_URL'),
+  url: new EnvironmentVariable('FAUNADB_GRAPHQL_URL'),
   headers: builder => {
     builder.addStaticHeader(
       'Authorization',
