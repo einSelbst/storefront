@@ -6,6 +6,47 @@
 
 #Version (zeitliche Abfolge), Variante, Variations,
 
+type Business {
+  name: String!
+  longName: String!
+  display: String
+  country: String!
+  details: String
+  wikipedia: String!
+  active: Boolean!
+  founder: String
+  foundedPlaces: String
+  foundedDate: Date
+  defunctDate: Date
+  currentAddress: Address
+  currentLogo: Logo
+  type: BusinessType
+}
+
+type BusinessType @embedded {
+  name: String!
+}
+
+type Logo @embedded {
+  main: Image
+  alternative: [Image]
+  begin: Date
+  end: Date
+}
+
+type Address @embedded {
+  name: String!
+  street: String!
+  city: String!
+  country: String!
+}
+
+type Image @embedded {
+  name: String!
+  description: String!
+  url: String!
+}
+
 type Brand {
   name: String!
   display: String!
@@ -209,6 +250,7 @@ type Query {
   allAutos: [Auto!]
   all_autos: [Auto!]
   allBrands: [Brand!]
+  allBusinesses: [Business!]
   Tweet(id: ID!): Tweet
   TweetsMeta: Meta
   User(id: ID!): User
@@ -216,6 +258,7 @@ type Query {
   Auto(id: ID!): Auto
   findMakeByName(Make: String): Auto
   findBrandByName(name: String): Brand
+  findBusinessByName(name: String): Business
 }
 
 type Todo {

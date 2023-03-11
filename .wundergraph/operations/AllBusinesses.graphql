@@ -1,0 +1,9 @@
+query AllBusinesses {
+  faunaDB_allBusinesses {
+    data {
+      _id
+      name
+      wikipedia
+    }
+  }
+}

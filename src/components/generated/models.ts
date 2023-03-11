@@ -31,6 +31,11 @@ export interface AllBrandsResponse {
 	errors?: ReadonlyArray<GraphQLError>;
 }
 
+export interface AllBusinessesResponse {
+	data?: AllBusinessesResponseData;
+	errors?: ReadonlyArray<GraphQLError>;
+}
+
 export interface DragonsResponse {
 	data?: DragonsResponseData;
 	errors?: ReadonlyArray<GraphQLError>;
@@ -58,6 +63,16 @@ export interface AllBrandsResponseData {
 			_id: string;
 			name: string;
 			display: string;
+		}[];
+	};
+}
+
+export interface AllBusinessesResponseData {
+	faunaDB_allBusinesses: {
+		data: {
+			_id: string;
+			name: string;
+			wikipedia: string;
 		}[];
 	};
 }

@@ -4,19 +4,25 @@ import {
 	CreateClientConfig,
 	User,
 	UploadRequestOptions,
-	UploadRequestOptionsWithProfile,
 	OperationMetadata,
 	OperationsDefinition,
 	OperationRequestOptions,
 	SubscriptionRequestOptions,
 	SubscriptionEventHandler,
 	FetchUserRequestOptions,
+	UploadValidationOptions,
+	ExtractProfileName,
+	ExtractMeta,
 } from "@wundergraph/sdk/client";
+
+import type { PublicCustomClaims } from "./claims";
 import type {
 	AllAutosResponse,
 	AllAutosResponseData,
 	AllBrandsResponse,
 	AllBrandsResponseData,
+	AllBusinessesResponse,
+	AllBusinessesResponseData,
 	DragonsResponse,
 	DragonsResponseData,
 	GetCarResponse,
@@ -39,9 +45,9 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "6a176b8e",
+	applicationHash: "2711200c",
 	baseURL: "http://localhost:9991",
-	sdkVersion: "0.132.1",
+	sdkVersion: "0.138.0",
 };
 
 export const operationMetadata: OperationMetadata = {
@@ -51,6 +57,9 @@ export const operationMetadata: OperationMetadata = {
 	AllBrands: {
 		requiresAuthentication: false,
 	},
+	AllBusinesses: {
+		requiresAuthentication: false,
+	},
 	Dragons: {
 		requiresAuthentication: false,
 	},
@@ -58,6 +67,8 @@ export const operationMetadata: OperationMetadata = {
 		requiresAuthentication: false,
 	},
 };
+
+export type PublicUser = User<UserRole, PublicCustomClaims>;
 
 export class WunderGraphClient extends Client {
 	query<
@@ -89,7 +100,7 @@ export class WunderGraphClient extends Client {
 	public login(authProviderID: Operations["authProvider"], redirectURI?: string) {
 		return super.login(authProviderID, redirectURI);
 	}
-	public async fetchUser<TUser extends User = User<UserRole>>(options?: FetchUserRequestOptions) {
+	public async fetchUser<TUser extends PublicUser = PublicUser>(options?: FetchUserRequestOptions) {
 		return super.fetchUser<TUser>(options);
 	}
 }
@@ -113,6 +124,12 @@ export type Queries = {
 	AllBrands: {
 		input?: undefined;
 		data: AllBrandsResponseData;
+		requiresAuthentication: false;
+		liveQuery: boolean;
+	};
+	AllBusinesses: {
+		input?: undefined;
+		data: AllBusinessesResponseData;
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
@@ -144,6 +161,12 @@ export type LiveQueries = {
 	AllBrands: {
 		input?: undefined;
 		data: AllBrandsResponseData;
+		liveQuery: true;
+		requiresAuthentication: false;
+	};
+	AllBusinesses: {
+		input?: undefined;
+		data: AllBusinessesResponseData;
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
