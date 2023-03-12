@@ -1,4 +1,4 @@
-import { NextPage } from 'next'
+/* import { NextPage } from 'next' */
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,16 +9,64 @@ import styles from '../styles/Home.module.css'
 /* import { log } from 'logger' */
 /* import { CounterButton, NewTabLink } from 'ui' */
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { useQuery } from '../lib/wundergraph'
+import { client, useQuery } from '../lib/wundergraph'
 
+/* import { dehydrate, QueryClient } from '@tanstack/react-query' */
+
+export async function getStaticProps() {
+  const res = await client.query({
+    /* operationName: 'AllAutos', */
+    operationName: 'AllBusinesses',
+  })
+  /* const companies = res!.data!.faunaDB_allAutos.data */
+  console.log(res.data)
+  const companies = res!.data!.faunaDB_allBusinesses.data
+
+  return {
+    props: {
+      companies,
+    },
+  }
+}
+/*
+* export async function getStaticProps2() {
+*   const queryClient = new QueryClient()
+*
+*   // const res = await client.query({
+*   // operationName: 'AllAutos',
+*   // })
+* await queryClient.prefetchQuery({
+  *     queryKey: ['posts', 10],
+  *     queryFn: client.query({
+    *       operationName: 'AllAutos',
+    *     }),
+*   })
+  *
+*   // const posts = await res.json()
+*   // const companies = await queryClient.json()
+*   // const companies = res!.data!.faunaDB_allAutos.data
+*
+*   // By returning { props: { posts } }, the Blog component
+*   // will receive `posts` as a prop at build time
+*   return {
+  *     props: {
+*       // companies: companies,
+*       companies: dehydrate(queryClient),
+*     },
+*   }
+* }
+*  * /
 /* function Home() { */
-const Home: NextPage = () => {
-  /* log('Hey! This is Home.') */
+const Company = ({ companies }: any) => {
+  /* log('Hey! This is Company.') */
   const { data: session } = useSession()
   /* const autos = useQuery({ operationName: 'AllAutos' }) */
+  const autos = useQuery({ operationName: 'AllBusinesses' })
   /* const stores = useQuery({ operationName: 'AllStores' }) */
   /* const dragons = useQuery({ operationName: 'Dragons' }) */
   /* const refresh = () => { stores.mutate() } */
+  console.log(companies)
+  /* const { data, isLoading, error } = useQuery({ operationName: 'Countries', input: { code: 'US',    },  }); */
 
   return (
     <div className={styles.container}>
@@ -36,26 +84,20 @@ const Home: NextPage = () => {
           </a>
         </h1>
 
-        {/* <div>{JSON.stringify(dragons.data)}</div> */}
+        {/* <div>{JSON.stringify(companies)}</div> */}
+        <h2>Here</h2>
         <ul>
-          <li>
-            <Link href='/'>Home</Link>
-          </li>
-          <li>
-            <Link href='/car'>Car</Link>
-          </li>
-          <li>
-            <Link href='/company'>Company</Link>
-          </li>
-          <li>
-            <Link
-              href={{
-                pathname: '/[brand]',
-                query: { brand: 'ford' },
-              }}>
-              Blog Post
-            </Link>
-          </li>
+          {companies.map((company: any) => (
+            <li key="{company.name}">
+              <Link
+                href={{
+                  pathname: '/company/[business]',
+                  query: { business: company.name },
+                }}>
+                {company.display}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <p className={styles.description}>
@@ -94,12 +136,7 @@ const Home: NextPage = () => {
             </code>{' '}
             operation.
           </p>
-          <code className='p-3'>
-            {/* {JSON.stringify(autos.data.faunaDB_allAutos.data[0], null, 2)} */}
-          </code>
-          <code className='p-3'>
-            {/* {autos.data.faunaDB_allAutos.data[0].Make} */}
-          </code>
+          <code className='p-3'>{JSON.stringify(autos, null, 2)}</code>
         </div>
 
         <p className='description'>
@@ -126,4 +163,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Company
