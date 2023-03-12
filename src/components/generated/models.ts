@@ -9,12 +9,24 @@ export interface GraphQLError {
 	path?: ReadonlyArray<string | number>;
 }
 
+export interface GetBusinessByNameInput {
+	name: string;
+}
+
 export interface GetCarInput {
 	carId: string;
 }
 
+export interface InternalGetBusinessByNameInput {
+	name: string;
+}
+
 export interface InternalGetCarInput {
 	carId: string;
+}
+
+export interface InjectedGetBusinessByNameInput {
+	name: string;
 }
 
 export interface InjectedGetCarInput {
@@ -38,6 +50,11 @@ export interface AllBusinessesResponse {
 
 export interface DragonsResponse {
 	data?: DragonsResponseData;
+	errors?: ReadonlyArray<GraphQLError>;
+}
+
+export interface GetBusinessByNameResponse {
+	data?: GetBusinessByNameResponseData;
 	errors?: ReadonlyArray<GraphQLError>;
 }
 
@@ -72,6 +89,7 @@ export interface AllBusinessesResponseData {
 		data: {
 			_id: string;
 			name: string;
+			display?: string;
 			wikipedia: string;
 		}[];
 	};
@@ -83,6 +101,15 @@ export interface DragonsResponseData {
 		active?: boolean;
 		id?: string;
 	}[];
+}
+
+export interface GetBusinessByNameResponseData {
+	faunaDB_findBusinessByName?: {
+		_id: string;
+		name: string;
+		display?: string;
+		wikipedia: string;
+	};
 }
 
 export interface GetCarResponseData {

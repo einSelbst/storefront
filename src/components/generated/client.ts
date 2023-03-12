@@ -25,6 +25,9 @@ import type {
 	AllBusinessesResponseData,
 	DragonsResponse,
 	DragonsResponseData,
+	GetBusinessByNameResponse,
+	GetBusinessByNameInput,
+	GetBusinessByNameResponseData,
 	GetCarResponse,
 	GetCarInput,
 	GetCarResponseData,
@@ -45,7 +48,7 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "2711200c",
+	applicationHash: "c01662ab",
 	baseURL: "http://localhost:9991",
 	sdkVersion: "0.138.0",
 };
@@ -61,6 +64,9 @@ export const operationMetadata: OperationMetadata = {
 		requiresAuthentication: false,
 	},
 	Dragons: {
+		requiresAuthentication: false,
+	},
+	GetBusinessByName: {
 		requiresAuthentication: false,
 	},
 	GetCar: {
@@ -139,6 +145,12 @@ export type Queries = {
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
+	GetBusinessByName: {
+		input: GetBusinessByNameInput;
+		data: GetBusinessByNameResponseData;
+		requiresAuthentication: false;
+		liveQuery: boolean;
+	};
 	GetCar: {
 		input: GetCarInput;
 		data: GetCarResponseData;
@@ -173,6 +185,12 @@ export type LiveQueries = {
 	Dragons: {
 		input?: undefined;
 		data: DragonsResponseData;
+		liveQuery: true;
+		requiresAuthentication: false;
+	};
+	GetBusinessByName: {
+		input: GetBusinessByNameInput;
+		data: GetBusinessByNameResponseData;
 		liveQuery: true;
 		requiresAuthentication: false;
 	};

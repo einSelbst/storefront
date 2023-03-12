@@ -3,6 +3,7 @@ query AllBusinesses {
     data {
       _id
       name
+      display
       wikipedia
     }
   }

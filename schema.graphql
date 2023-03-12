@@ -8,8 +8,8 @@
 
 type Business {
   name: String!
-  longName: String!
-  display: String
+  display: String!
+  longName: String
   country: String!
   details: String
   wikipedia: String!

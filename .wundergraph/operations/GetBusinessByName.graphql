@@ -1,0 +1,8 @@
+query GetBusiness($name: String!) {
+  faunaDB_findBusinessByName(name: $name) {
+    _id
+    name
+    display
+    wikipedia
+  }
+}
