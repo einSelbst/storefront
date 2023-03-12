@@ -5,11 +5,15 @@
   "scripts": {
     "dev:wundergraph": "wunderctl up --debug",
     "dev:next": "next dev -p 3002",
-    "dev": "npm run dev:wundergraph & npm run dev:next",
+    "dev2": "npm run dev:wundergraph & npm run dev:next",
+    "dev": "start-test 'dev:wundergraph' 9991 'next dev -p 3002'",
     "build:wundergraph": "wunderctl generate --debug",
     "build:next": "next build",
     "build": "npm run build:wundergraph & npm run build:next",
-    "start": "next start",
+    "start:wundergraph": "wunderctl up",
+    "start:next": "next start",
+    "start": "npm run start:wundergraph && npm run start:next",
+    "start2": "start-test 'start:wundergraph' 9991 'next start'",
     "clean": "rm -rf .next && rm -rf generated",
     "lint:original": "TIMING=1 next lint",
     "lint": "tsc --noEmit && TIMING=1 eslint . --format=pretty --cache"
@@ -34,6 +38,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-formatter-pretty": "4.1.0",
     "eslint-plugin-react": "7.28.0",
+    "start-server-and-test": "1.14.0",
     "typescript": "^4.8.3"
   }
 }
