@@ -1,10 +1,11 @@
-import { Footer, Navigation } from 'components/layout'
+import { Footer, Navigation } from '../components/layout'
 
 const HolyGrailLayout = ({
   children,
 }: {
   readonly children: React.ReactNode
-}): ComponentReturnType => (
+    /* }): ComponentReturnType => ( */
+}) => (
   <div id='holy-grail-layout'>
     <header>
       <Navigation success error={false} />
