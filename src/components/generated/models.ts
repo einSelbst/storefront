@@ -105,6 +105,7 @@ export interface AllBusinessesResponseData {
 			_id: string;
 			name: string;
 			display?: string;
+			wikipedia: string;
 			country: string;
 		}[];
 		before?: string;
