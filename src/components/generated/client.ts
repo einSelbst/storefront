@@ -22,6 +22,7 @@ import type {
 	AllBrandsResponse,
 	AllBrandsResponseData,
 	AllBusinessesResponse,
+	AllBusinessesInput,
 	AllBusinessesResponseData,
 	DragonsResponse,
 	DragonsResponseData,
@@ -48,7 +49,7 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "c01662ab",
+	applicationHash: "a4a3df43",
 	baseURL: "http://localhost:9991",
 	sdkVersion: "0.138.0",
 };
@@ -134,7 +135,7 @@ export type Queries = {
 		liveQuery: boolean;
 	};
 	AllBusinesses: {
-		input?: undefined;
+		input: AllBusinessesInput;
 		data: AllBusinessesResponseData;
 		requiresAuthentication: false;
 		liveQuery: boolean;
@@ -177,7 +178,7 @@ export type LiveQueries = {
 		requiresAuthentication: false;
 	};
 	AllBusinesses: {
-		input?: undefined;
+		input: AllBusinessesInput;
 		data: AllBusinessesResponseData;
 		liveQuery: true;
 		requiresAuthentication: false;
