@@ -1,10 +1,13 @@
-query AllBusinesses {
-  faunaDB_allBusinesses {
+query AllBusinesses($size: Int, $cursor: String) {
+  faunaDB_allBusinesses(_size: $size, _cursor: $cursor) {
     data {
       _id
       name
       display
       wikipedia
+      country
     }
+    before
+    after
   }
 }

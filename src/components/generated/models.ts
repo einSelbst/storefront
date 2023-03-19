@@ -9,6 +9,11 @@ export interface GraphQLError {
 	path?: ReadonlyArray<string | number>;
 }
 
+export interface AllBusinessesInput {
+	size?: number;
+	cursor?: string;
+}
+
 export interface GetBusinessByNameInput {
 	name: string;
 }
@@ -17,12 +22,22 @@ export interface GetCarInput {
 	carId: string;
 }
 
+export interface InternalAllBusinessesInput {
+	size?: number;
+	cursor?: string;
+}
+
 export interface InternalGetBusinessByNameInput {
 	name: string;
 }
 
 export interface InternalGetCarInput {
 	carId: string;
+}
+
+export interface InjectedAllBusinessesInput {
+	size?: number;
+	cursor?: string;
 }
 
 export interface InjectedGetBusinessByNameInput {
@@ -90,8 +105,10 @@ export interface AllBusinessesResponseData {
 			_id: string;
 			name: string;
 			display?: string;
-			wikipedia: string;
+			country: string;
 		}[];
+		before?: string;
+		after?: string;
 	};
 }
 
