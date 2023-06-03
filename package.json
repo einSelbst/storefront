@@ -20,7 +20,8 @@
     "lint:original": "TIMING=1 next lint",
     "lint": "tsc --noEmit && TIMING=1 eslint . --format=pretty --cache",
     " ------------------------- Helper -------------------------- ": "",
-    "clean": "rm -rf .next && rm -rf generated"
+    "clean": "rm -rf .next && rm -rf generated",
+    "fauna:schema": "fauna upload-graphql-schema ./schema.graphql --mode=replace"
   },
   "dependencies": {
     "@tanstack/react-query": "4.29.12",
