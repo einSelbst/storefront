@@ -33,9 +33,14 @@ const world = introspect.graphql({
   url: 'https://countries.trevorblades.com',
 })
 
+const wikidata = introspect.graphql({
+  apiNamespace: 'wiki',
+  url: 'https://graphql.toolforge.org/',
+})
+
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [faunaDB, spaceX, world],
+  apis: [faunaDB, spaceX, world, wikidata],
   server,
   operations,
   codeGenerators: [
