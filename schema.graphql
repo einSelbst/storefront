@@ -6,6 +6,29 @@
 
 #Version (zeitliche Abfolge), Variante, Variations,
 
+"""
+Naming Conventions:
+
+Field names should use camelCase. Many GraphQL clients are written in JavaScript, Java, Kotlin, or Swift, all of which recommend camelCase for variable names.
+Type names should use PascalCase. This matches how classes are defined in the languages mentioned above.
+Enum names should use PascalCase.
+Enum values should use ALL_CAPS, because they are similar to constants.
+"""
+
+enum Gender {
+  FEMALE
+  MALE
+  NON-BINARY
+  OTHER
+}
+
+type Person {
+  firstname: String
+  lastname: String!
+  gender: Gender
+
+}
+
 type Business {
   name: String!
   display: String!
