@@ -25,6 +25,8 @@ export async function getStaticProps() {
   return {
     props: {
       companies,
+      before: res!.data!.faunaDB_allBusinesses.before,
+      after: res!.data!.faunaDB_allBusinesses.after,
     },
   }
 }
@@ -57,11 +59,18 @@ export async function getStaticProps() {
 * }
 *  * /
 /* function Home() { */
-const Company = ({ companies }: any) => {
+const Company = ({ companies, before, after }: any) => {
   /* log('Hey! This is Company.') */
   const { data: session } = useSession()
   /* const autos = useQuery({ operationName: 'AllAutos' }) */
   const autos = useQuery({ operationName: 'AllBusinesses' })
+  const nextCompanies = (cursor: string) => {
+    useQuery({
+      operationName: 'AllBusinesses' ,
+      size: 10,
+      cursor: cursor,
+    })
+  }
   /* const stores = useQuery({ operationName: 'AllStores' }) */
   /* const dragons = useQuery({ operationName: 'Dragons' }) */
   /* const refresh = () => { stores.mutate() } */
@@ -94,12 +103,14 @@ const Company = ({ companies }: any) => {
                   pathname: '/company/[business]',
                   query: { business: company.name },
                 }}>
-                {company.display}
+                {company.display} - {company.name}
               </Link>
             </li>
           ))}
         </ul>
 
+        <Link href="http://">{before}</Link>
+        <Link href="http://">{after}</Link>
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
