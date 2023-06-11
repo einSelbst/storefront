@@ -40,7 +40,8 @@ const wikidata = introspect.graphql({
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [faunaDB, spaceX, world, wikidata],
+  apis: [faunaDB, spaceX, world],
+  // apis: [faunaDB, spaceX, world, wikidata],
   server,
   operations,
   codeGenerators: [
