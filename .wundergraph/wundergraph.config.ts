@@ -28,9 +28,20 @@ const spaceX = introspect.graphql({
   url: 'https://spacex-api.fly.dev/graphql/',
 })
 
+const world = introspect.graphql({
+  apiNamespace: 'world',
+  url: 'https://countries.trevorblades.com',
+})
+
+const wikidata = introspect.graphql({
+  apiNamespace: 'wiki',
+  url: 'https://graphql.toolforge.org/',
+})
+
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [faunaDB, spaceX],
+  apis: [faunaDB, spaceX, world],
+  // apis: [faunaDB, spaceX, world, wikidata],
   server,
   operations,
   codeGenerators: [

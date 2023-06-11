@@ -1,5 +1,4 @@
-import {
-	Client,
+import type {
 	ClientConfig,
 	CreateClientConfig,
 	User,
@@ -11,9 +10,15 @@ import {
 	SubscriptionEventHandler,
 	FetchUserRequestOptions,
 	UploadValidationOptions,
+	QueryRequestOptions,
+	MutationRequestOptions,
+	ClientOperationErrors,
 	ExtractProfileName,
 	ExtractMeta,
+	GraphQLError,
 } from "@wundergraph/sdk/client";
+import { Client } from "@wundergraph/sdk/client";
+import type { OperationErrors } from "./ts-operation-errors";
 
 import type { PublicCustomClaims } from "./claims";
 import type {
@@ -22,6 +27,7 @@ import type {
 	AllBrandsResponse,
 	AllBrandsResponseData,
 	AllBusinessesResponse,
+	AllBusinessesInput,
 	AllBusinessesResponseData,
 	DragonsResponse,
 	DragonsResponseData,
@@ -32,7 +38,6 @@ import type {
 	GetCarInput,
 	GetCarResponseData,
 } from "./models";
-
 export type UserRole = "admin" | "user";
 
 export const WUNDERGRAPH_S3_ENABLED = false;
@@ -48,9 +53,9 @@ export interface AuthProvider {
 }
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "c01662ab",
+	applicationHash: "a037b423",
 	baseURL: "http://localhost:9991",
-	sdkVersion: "0.138.0",
+	sdkVersion: "0.163.2",
 };
 
 export const operationMetadata: OperationMetadata = {
@@ -80,28 +85,28 @@ export class WunderGraphClient extends Client {
 	query<
 		OperationName extends Extract<keyof Operations["queries"], string>,
 		Input extends Operations["queries"][OperationName]["input"] = Operations["queries"][OperationName]["input"],
-		Data extends Operations["queries"][OperationName]["data"] = Operations["queries"][OperationName]["data"]
-	>(options: OperationName extends string ? OperationRequestOptions<OperationName, Input> : OperationRequestOptions) {
-		return super.query<OperationRequestOptions, Data>(options);
+		Response extends Operations["queries"][OperationName]["response"] = Operations["queries"][OperationName]["response"]
+	>(options: OperationName extends string ? QueryRequestOptions<OperationName, Input> : OperationRequestOptions) {
+		return super.query<OperationRequestOptions, Response["data"], Response["error"]>(options);
 	}
 	mutate<
 		OperationName extends Extract<keyof Operations["mutations"], string>,
 		Input extends Operations["mutations"][OperationName]["input"] = Operations["mutations"][OperationName]["input"],
-		Data extends Operations["mutations"][OperationName]["data"] = Operations["mutations"][OperationName]["data"]
-	>(options: OperationName extends string ? OperationRequestOptions<OperationName, Input> : OperationRequestOptions) {
-		return super.mutate<OperationRequestOptions, Data>(options);
+		Response extends Operations["mutations"][OperationName]["response"] = Operations["mutations"][OperationName]["response"]
+	>(options: OperationName extends string ? MutationRequestOptions<OperationName, Input> : OperationRequestOptions) {
+		return super.mutate<OperationRequestOptions, Response["data"], Response["error"]>(options);
 	}
 	subscribe<
 		OperationName extends Extract<keyof Operations["subscriptions"], string>,
 		Input extends Operations["subscriptions"][OperationName]["input"] = Operations["subscriptions"][OperationName]["input"],
-		Data extends Operations["subscriptions"][OperationName]["data"] = Operations["subscriptions"][OperationName]["data"]
+		Response extends Operations["subscriptions"][OperationName]["response"] = Operations["subscriptions"][OperationName]["response"]
 	>(
 		options: OperationName extends string
 			? SubscriptionRequestOptions<OperationName, Input>
 			: SubscriptionRequestOptions,
-		cb: SubscriptionEventHandler<Data>
+		cb?: SubscriptionEventHandler<Response["data"], Response["error"]>
 	) {
-		return super.subscribe(options, cb);
+		return super.subscribe<OperationRequestOptions, Response["data"], Response["error"]>(options, cb);
 	}
 	public login(authProviderID: Operations["authProvider"], redirectURI?: string) {
 		return super.login(authProviderID, redirectURI);
@@ -123,37 +128,37 @@ export const createClient = (config?: CreateClientConfig) => {
 export type Queries = {
 	AllAutos: {
 		input?: undefined;
-		data: AllAutosResponseData;
+		response: { data?: AllAutosResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
 	AllBrands: {
 		input?: undefined;
-		data: AllBrandsResponseData;
+		response: { data?: AllBrandsResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
 	AllBusinesses: {
-		input?: undefined;
-		data: AllBusinessesResponseData;
+		input: AllBusinessesInput;
+		response: { data?: AllBusinessesResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
 	Dragons: {
 		input?: undefined;
-		data: DragonsResponseData;
+		response: { data?: DragonsResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
 	GetBusinessByName: {
 		input: GetBusinessByNameInput;
-		data: GetBusinessByNameResponseData;
+		response: { data?: GetBusinessByNameResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
 	GetCar: {
 		input: GetCarInput;
-		data: GetCarResponseData;
+		response: { data?: GetCarResponse["data"]; error?: ClientOperationErrors };
 		requiresAuthentication: false;
 		liveQuery: boolean;
 	};
@@ -166,37 +171,37 @@ export type Subscriptions = {};
 export type LiveQueries = {
 	AllAutos: {
 		input?: undefined;
-		data: AllAutosResponseData;
+		response: { data?: AllAutosResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
 	AllBrands: {
 		input?: undefined;
-		data: AllBrandsResponseData;
+		response: { data?: AllBrandsResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
 	AllBusinesses: {
-		input?: undefined;
-		data: AllBusinessesResponseData;
+		input: AllBusinessesInput;
+		response: { data?: AllBusinessesResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
 	Dragons: {
 		input?: undefined;
-		data: DragonsResponseData;
+		response: { data?: DragonsResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
 	GetBusinessByName: {
 		input: GetBusinessByNameInput;
-		data: GetBusinessByNameResponseData;
+		response: { data?: GetBusinessByNameResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};
 	GetCar: {
 		input: GetCarInput;
-		data: GetCarResponseData;
+		response: { data?: GetCarResponse["data"]; error?: ClientOperationErrors };
 		liveQuery: true;
 		requiresAuthentication: false;
 	};

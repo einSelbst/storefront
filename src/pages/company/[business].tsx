@@ -87,9 +87,18 @@ export const getStaticProps: GetStaticProps = async (
 ) => {
   /* ): Promise<GetStaticPropsResult<HomeProps>> => { */
   /* export async function getStaticProps(context: NextPageContext) { */
-    console.log('props')
-  console.log(context)
-  console.log(context!.params!.business)
+  console.log('props==================11111111111111111=====================')
+
+  const extract = await wiki(context!.params!.business! as string)
+  console.log('extract')
+  console.log(extract)
+
+  const sp = await wikisp()
+  console.log('sp')
+  console.log(sp)
+
+  /* console.log(context) */
+  /* console.log(context!.params!.business) */
 
   const res = await client.query({
     operationName: 'GetBusinessByName',
@@ -103,11 +112,69 @@ export const getStaticProps: GetStaticProps = async (
   return {
     props: {
       car,
+      extract,
     },
   }
 }
 
-const Business = ({ car }: any) => {
+const wiki = async (pageTitle:string) => {
+  const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=pageprops|info|extracts&exintro=&explaintext=&format=json&titles=${encodeURIComponent(pageTitle)}&origin=*`;
+
+  try {
+    const response = await fetch(apiUrl)
+    let data
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      throw new Error('Failed to fetch data from the Wikipedia API');
+    }
+    const pages = data.query.pages;
+    const pageId = Object.keys(pages)[0];
+    const pageInfo = pages[pageId];
+
+    console.log('Page ID:', pageInfo.pageid);
+    console.log('Title:', pageInfo.title);
+    console.log('Extract:', pageInfo.extract);
+
+    console.log('Pages:', pages);
+
+    return pageInfo.extract
+  } catch(error) {
+    console.error('Error:', error);
+  }
+}
+
+const wikisp = async (limit = 10) => {
+  const query = `
+    SELECT ?item ?itemLabel WHERE {
+      ?item wdt:P31 wd:Q5.
+      ?item wdt:P569 ?birthdate.
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+    }
+    ORDER BY DESC(?birthdate)
+    LIMIT ${limit}
+  `;
+
+  const url = 'https://query.wikidata.org/sparql';
+  const params = new URLSearchParams({ query, format: 'json' });
+
+  try {
+    console.log(`${url}?${params.toString()}`);
+    const response = await fetch(`${url}?${params.toString()}`);
+    const json = await response.json();
+    console.log(json)
+    const results = json.results.bindings;
+
+    results.forEach((result:any, index:number) => {
+      console.log(`${index + 1}. ${result.itemLabel.value} (ID: ${result.item.value})`);
+    })
+    return results
+  } catch (error) {
+    console.error('Error fetching data from Wikidata:', error);
+  }
+}
+
+const Business = ({ car, extract }: any) => {
   /* const Business = () => { */
   /* log('Hey! This is Business.') */
   const { data: session } = useSession()
@@ -115,7 +182,7 @@ const Business = ({ car }: any) => {
   /* const stores = useQuery({ operationName: 'AllStores' }) */
   /* const dragons = useQuery({ operationName: 'Dragons' }) */
   /* const refresh = () => { stores.mutate() } */
-  console.log(car)
+  /* console.log(car) */
 
   return (
     <div className={styles.container}>
@@ -128,6 +195,7 @@ const Business = ({ car }: any) => {
       <main className={styles.main}>
         <h1 className={styles.title}>{car.display}</h1>
 
+        <div>{extract}</div>
         <div>{JSON.stringify(car)}</div>
 
         <ul>

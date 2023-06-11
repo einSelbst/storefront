@@ -1,4 +1,9 @@
-import { NextPage } from 'next'
+import type { ReactElement } from 'react'
+import Layout from '../layouts/holy-grail.layout'
+
+import type { NextPageWithLayout } from './_app'
+/* import { NextPage } from 'next' */
+
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,7 +17,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { useQuery } from '../lib/wundergraph'
 
 /* function Home() { */
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   /* log('Hey! This is Home.') */
   const { data: session } = useSession()
   /* const autos = useQuery({ operationName: 'AllAutos' }) */
@@ -126,4 +131,12 @@ const Home: NextPage = () => {
   )
 }
 
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      {/* <NestedLayout>{page}</NestedLayout> */}
+    </Layout>
+  )
+}
 export default Home
