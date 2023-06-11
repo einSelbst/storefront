@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     " ----------------------- Development ----------------------- ": "",
-    "dev:wundergraph": "wunderctl up --debug",
+    "dev:wundergraph:debug": "wunderctl up --debug",
+    "dev:wundergraph": "wunderctl up",
     "dev:next": "next dev -p 3002",
     "dev2": "npm run dev:wundergraph & npm run dev:next",
     "dev": "start-test 'dev:wundergraph' 9991 'next dev -p 3002'",
